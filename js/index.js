@@ -29,7 +29,7 @@ operators.forEach((operator) => {
             if (equalChecker === 'on') {
                 secondNum = displayValue;
             checkCalc();
-            display.textContent = operate(calculation, firstNum, secondNum);
+            display.textContent = performCalc();
             firstNum = +display.textContent;
             secondNum = null;
             } else {
@@ -46,7 +46,7 @@ operators.forEach((operator) => {
 equalSign.addEventListener('click', (e) => {
     secondNum = displayValue;
     checkCalc();
-    display.textContent = operate(calculation, firstNum, secondNum);
+    display.textContent = performCalc();
     firstNum = +display.textContent;
     secondNum = null;
     equalChecker = 'off';
@@ -92,5 +92,17 @@ function checkCalc() {
         calculation = subtract;
     } else if (operation === '+') {
         calculation = add;
+    }
+}
+
+function performCalc() {
+    let result = operate(calculation, firstNum, secondNum);
+    if (result % 1 != 0) {
+        result = result.toFixed(3);
+    }
+    if (result == Infinity) {
+        return 'Hahaa try again';
+    } else {
+        return result;
     }
 }
