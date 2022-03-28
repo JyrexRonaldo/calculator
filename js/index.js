@@ -8,13 +8,14 @@ let operation = null;
 let firstNum = null;
 let secondNum = null;
 let calculation = null;
-let checker = 'on';
+let displayChecker = 'on';
+let equalChecker = 'on'
 
 numbers.forEach((number) => {
     number.addEventListener('click', (e) => {
-        if (checker === 'off') {
+        if (displayChecker === 'off') {
             display.textContent = null;
-            checker = 'on';
+            displayChecker = 'on';
         }
         display.textContent += e.target.textContent;
         displayValue = +display.textContent;
@@ -23,9 +24,10 @@ numbers.forEach((number) => {
 
 operators.forEach((operator) => {
     operator.addEventListener('click', (e) => {
-        checker = 'off';
+        displayChecker = 'off';
         if (firstNum) {
-            secondNum = displayValue;
+            if (equalChecker === 'on') {
+                secondNum = displayValue;
             console.log(`Second num: ${secondNum}`);
             if (operation === '/') {
                 calculation = divide;
@@ -40,6 +42,10 @@ operators.forEach((operator) => {
             display.textContent = operate(calculation, firstNum, secondNum);
             firstNum = +display.textContent;
             secondNum = null;
+            } else {
+                equalChecker = 'on';        
+            }
+            
         } else {
             firstNum = displayValue;
             console.log(`First num: ${firstNum}`);
@@ -50,7 +56,21 @@ operators.forEach((operator) => {
 });
 
 equalSign.addEventListener('click', (e) => {
-    
+    secondNum = displayValue;
+    if (operation === '/') {
+        calculation = divide;
+    } else if (operation === '*') {
+        calculation = multiply;
+    } else if (operation === '-') {
+        calculation = subtract;
+    } else if (operation === '+') {
+        calculation = add;
+    }
+
+    display.textContent = operate(calculation, firstNum, secondNum);
+    firstNum = +display.textContent;
+    secondNum = null;
+    equalChecker = 'off';
 });
 
 clearButton.addEventListener('click', () => {
@@ -59,8 +79,9 @@ clearButton.addEventListener('click', () => {
     firstNum = null;
     secondNum = null;
     calculation = null;
-    checker = 'on';
+    displayChecker = 'on';
     display.textContent = null;
+    equalChecker = 'on';
 });
 
 function add(a, b) {
