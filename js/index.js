@@ -100,6 +100,9 @@ equalSign.addEventListener("click", (e) => {
 });
 
 clearbutton.addEventListener("click", (e) => {
+    operatorCode = 0;
+    numberCode = 0;
+    symbol = null;
     firstNumber = null;
     secondNumber = null;
     operator = null;
