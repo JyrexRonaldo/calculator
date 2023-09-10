@@ -49,7 +49,7 @@ function operate(symbol, a, b) {
             break;
     }
     
-    return result 
+    return result.toFixed(3)
 }
 
 function updateDisplay(value = "") {
