@@ -26,11 +26,8 @@ function divide(a, b) {
 }
 
 function operate(symbol, a, b) {
-    // if (a !== "." || b !== ".") {
         a = +a;
         b = +b;    
-    // }
-    
     let result = 0;
     
     
@@ -48,8 +45,14 @@ function operate(symbol, a, b) {
             result = divide(a ,b)
             break;
     }
+
+    if (result % Math.floor(result) !== 0) {
+        result =  result.toFixed(3);    
+    }
+
     
-    return result.toFixed(3)
+    
+    return result;
 }
 
 function updateDisplay(value = "") {
@@ -90,7 +93,6 @@ numbers.forEach((number) => {
 
 
 equalSign.addEventListener("click", (e) => {
-    console.log(symbol)
     display.textContent = "";
     updateDisplay(operate(symbol, firstNumber, secondNumber));
     firstNumber = secondNumber;
