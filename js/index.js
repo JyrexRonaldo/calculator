@@ -50,6 +50,10 @@ function operate(symbol, a, b) {
         result =  result.toFixed(3);    
     }
 
+    if (result = Infinity) {
+        result = "Yeah let's not divide by 0"
+    }
+
     
     
     return result;
