@@ -26,6 +26,11 @@ function divide(a, b) {
 }
 
 function operate(symbol, a, b) {
+    // if (a !== "." || b !== ".") {
+        a = +a;
+        b = +b;    
+    // }
+    
     let result = 0;
     
     
@@ -54,36 +59,42 @@ function updateDisplay(value = "") {
     }
     display.textContent += value;
     if (numberCode === 1) {
-        // display.textContent += value;
         secondNumber = display.textContent;    
     } else if (numberCode === 0){
-        // display.textContent += value;
+        
         firstNumber = display.textContent;
     }
 }
 
 operators.forEach((operator) => {
     operator.addEventListener("click", (e) => {
+        if (secondNumber !== null) {
+            display.textContent = "";
+            updateDisplay(operate(symbol, firstNumber, secondNumber));
+            firstNumber = secondNumber;
+            secondNumber = null;
+        }
         operatorCode  = 1;
         numberCode  = 1
         symbol = e.target.textContent;
         
-        // console.log(operator);     
     });
 });
     
 numbers.forEach((number) => {
     number.addEventListener("click", (e) => {
         updateDisplay(e.target.textContent);
-        // return e.target.textContent;
+        
     });
 });
 
 
 equalSign.addEventListener("click", (e) => {
     console.log(symbol)
-    display.textContent = ""
+    display.textContent = "";
     updateDisplay(operate(symbol, firstNumber, secondNumber));
+    firstNumber = secondNumber;
+    secondNumber = null;
 });
 
 clearbutton.addEventListener("click", (e) => {
@@ -92,10 +103,3 @@ clearbutton.addEventListener("click", (e) => {
     operator = null;
     display.textContent = null;
 })
-
-
-// }
-
-// function calculatorLogic() {
-
-// }
