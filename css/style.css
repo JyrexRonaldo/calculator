@@ -29,18 +29,23 @@ body > div {
     
 }
 
-body > div > div:first-child {
+.display {
     border: 2px solid black;
     height: 120px;
     border-radius: 2%;
     width: 100%;
     background-color: #EEEEEE;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 60px;
+    overflow: hidden;
 }
 
-body > div > button {
+.clear {
     height: 80px;
     width: 350px;
-    font-size: 50px;
+    font-size: 40px;
     font-weight: lighter;
     background-color: #EE9999;
 }
