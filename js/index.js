@@ -3,6 +3,7 @@ const operators = document.querySelectorAll(".operator");
 const equalSign = document.querySelector(".calculate");
 const clearbutton = document.querySelector(".clear");
 const display = document.querySelector(".display");
+const dot = document.querySelector(".dot")
 let operatorCode = 0;
 let numberCode = 0;
 let firstNumber = null;
@@ -52,10 +53,7 @@ function operate(symbol, a, b) {
 
     if (result === Infinity) {
         result = "Yeah let's not divide by 0"
-    }
-
-    
-    
+    }   
     return result;
 }
 
@@ -89,11 +87,14 @@ operators.forEach((operator) => {
 });
     
 numbers.forEach((number) => {
-    number.addEventListener("click", (e) => {
-        updateDisplay(e.target.textContent);
-        
-    });
+    number.addEventListener("click", inputDisplay);
 });
+
+function inputDisplay(e) {
+    updateDisplay(e.target.textContent);
+    checkDisplayDot()    
+}
+
 
 
 equalSign.addEventListener("click", (e) => {
@@ -101,6 +102,7 @@ equalSign.addEventListener("click", (e) => {
     updateDisplay(operate(symbol, firstNumber, secondNumber));
     firstNumber = secondNumber;
     secondNumber = null;
+    checkDisplayDot()
 });
 
 clearbutton.addEventListener("click", (e) => {
@@ -112,3 +114,12 @@ clearbutton.addEventListener("click", (e) => {
     operator = null;
     display.textContent = null;
 })
+
+
+function checkDisplayDot() {
+    if (display.textContent.includes(".")) {
+        dot.removeEventListener("click", inputDisplay)
+    } else if (!(display.textContent.includes("."))){
+        dot.addEventListener("click", inputDisplay)
+    }
+}
