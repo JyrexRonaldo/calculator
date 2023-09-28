@@ -4,6 +4,8 @@ const equalSign = document.querySelector(".calculate");
 const clearbutton = document.querySelector(".clear");
 const display = document.querySelector(".display");
 const dot = document.querySelector(".dot")
+const deleteButton = document.querySelector(".delete");
+let deleteCode = 0;
 let operatorCode = 0;
 let numberCode = 0;
 let firstNumber = null;
@@ -30,7 +32,6 @@ function operate(symbol, a, b) {
         a = +a;
         b = +b;    
     let result = 0;
-    
     
     switch (symbol) {
         case "+":
@@ -64,10 +65,11 @@ function updateDisplay(value = "") {
     }
     display.textContent += value;
     if (numberCode === 1) {
-        secondNumber = display.textContent;    
+        secondNumber = display.textContent;
+        deleteCode = 2;    
     } else if (numberCode === 0){
-        
         firstNumber = display.textContent;
+        deleteCode = 1;
     }
 }
 
@@ -77,12 +79,12 @@ operators.forEach((operator) => {
             display.textContent = "";
             updateDisplay(operate(symbol, firstNumber, secondNumber));
             firstNumber = secondNumber;
+            deleteCode = 1;
             secondNumber = null;
         }
         operatorCode  = 1;
         numberCode  = 1
         symbol = e.target.textContent;
-        
     });
 });
     
@@ -95,14 +97,13 @@ function inputDisplay(e) {
     checkDisplayDot()    
 }
 
-
-
 equalSign.addEventListener("click", (e) => {
     display.textContent = "";
     updateDisplay(operate(symbol, firstNumber, secondNumber));
     firstNumber = secondNumber;
     secondNumber = null;
     checkDisplayDot()
+    deleteCode = 1;
 });
 
 clearbutton.addEventListener("click", (e) => {
@@ -113,6 +114,7 @@ clearbutton.addEventListener("click", (e) => {
     secondNumber = null;
     operator = null;
     display.textContent = null;
+    deleteCode = 0;
 })
 
 
@@ -123,3 +125,15 @@ function checkDisplayDot() {
         dot.addEventListener("click", inputDisplay)
     }
 }
+
+deleteButton.addEventListener("click", (e) => {
+    let displayText = display.textContent;
+    displayText = displayText.slice(0, displayText.length - 1);
+    display.textContent = displayText;
+    if (deleteCode === 2) {
+        secondNumber = display.textContent;    
+    } else if (deleteCode === 1){
+        
+        firstNumber = display.textContent;
+    }
+});
