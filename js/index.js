@@ -1,3 +1,4 @@
+const body = document.querySelector("body");
 const numbers = document.querySelectorAll(".number");
 const operators = document.querySelectorAll(".operator");
 const equalSign = document.querySelector(".calculate");
@@ -49,7 +50,8 @@ function operate(symbol, a, b) {
     }
 
     if (result % Math.floor(result) !== 0) {
-        result =  result.toFixed(3);    
+        result =  String(parseFloat(result.toFixed(3)));  
+        console.log(typeof result)
     }
 
     if (result === Infinity) {
@@ -175,7 +177,6 @@ function deleteButtonHandler() {
     }
 }
 
-const body = document.querySelector("body");
 
 body.addEventListener("keydown", (e) => {
 
