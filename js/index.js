@@ -74,7 +74,10 @@ function updateDisplay(value = "") {
 }
 
 operators.forEach((operator) => {
-    operator.addEventListener("click", (e) => {
+    operator.addEventListener("click", operatorHandler);
+});
+
+function operatorHandler(e) {
         if (secondNumber !== null) {
             display.textContent = "";
             updateDisplay(operate(symbol, firstNumber, secondNumber));
@@ -84,29 +87,61 @@ operators.forEach((operator) => {
         }
         operatorCode  = 1;
         numberCode  = 1
-        symbol = e.target.textContent;
-    });
-});
+        if (e.type === "click") {
+            symbol = e.target.textContent;
+        } else if (e.type === "keydown") {
+            symbol = e.key;
+        }
+}
     
 numbers.forEach((number) => {
     number.addEventListener("click", inputDisplay);
 });
 
 function inputDisplay(e) {
-    updateDisplay(e.target.textContent);
+    if (e.type == "click") {
+        updateDisplay(e.target.textContent);    
+    } else if (e.type == "keydown") {
+        let pressedKey = e.code.slice(6, e.code.length) 
+        switch (pressedKey) {
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+            case "0":
+                updateDisplay(pressedKey);
+                break;
+            case "Decimal":
+                if (display.textContent.includes(".")) {
+                updateDisplay("")                        
+                } else if (!(display.textContent.includes("."))) {
+                updateDisplay(".");    
+                }                   
+                break;
+        }
+    }
     checkDisplayDot()    
 }
 
-equalSign.addEventListener("click", (e) => {
+equalSign.addEventListener("click", equalSignHandler);
+
+function equalSignHandler() {
     display.textContent = "";
     updateDisplay(operate(symbol, firstNumber, secondNumber));
     firstNumber = secondNumber;
     secondNumber = null;
     checkDisplayDot()
     deleteCode = 1;
-});
+}
 
-clearbutton.addEventListener("click", (e) => {
+clearbutton.addEventListener("click", clearbuttonHandler)
+
+function clearbuttonHandler() {
     operatorCode = 0;
     numberCode = 0;
     symbol = null;
@@ -115,7 +150,7 @@ clearbutton.addEventListener("click", (e) => {
     operator = null;
     display.textContent = null;
     deleteCode = 0;
-})
+}
 
 
 function checkDisplayDot() {
@@ -126,7 +161,9 @@ function checkDisplayDot() {
     }
 }
 
-deleteButton.addEventListener("click", (e) => {
+deleteButton.addEventListener("click", deleteButtonHandler);
+
+function deleteButtonHandler() {
     let displayText = display.textContent;
     displayText = displayText.slice(0, displayText.length - 1);
     display.textContent = displayText;
@@ -135,5 +172,42 @@ deleteButton.addEventListener("click", (e) => {
     } else if (deleteCode === 1){
         
         firstNumber = display.textContent;
+    }
+}
+
+const body = document.querySelector("body");
+
+body.addEventListener("keydown", (e) => {
+
+    switch (e.code) {
+            case "Numpad1":
+            case "Numpad2":
+            case "Numpad3":
+            case "Numpad4":
+            case "Numpad5":
+            case "Numpad6":
+            case "Numpad7":
+            case "Numpad8":
+            case "Numpad9":
+            case "Numpad0":
+            case "NumpadDecimal":
+                inputDisplay(e);
+                break;
+            case "NumpadAdd":
+            case "NumpadSubtract":
+            case "NumpadDivide":
+            case "NumpadMultiply":
+                operatorHandler(e);
+                break;
+            case "Equal":
+            case "NumpadEnter":
+                equalSignHandler();
+                break;  
+            case "Delete":
+                clearbuttonHandler();
+                break;
+            case "Backspace":
+                deleteButtonHandler();
+                break;
     }
 });
